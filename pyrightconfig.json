@@ -1,0 +1,10 @@
+{
+  "venvPath": ".",
+  "venv": ".venv",
+  "pythonVersion": "3.13",
+  "include": ["code"],
+  "typeCheckingMode": "basic",
+  "reportWildcardImportFromLibrary": "none",
+  "reportUndefinedVariable": "none",
+  "reportGeneralTypeIssues": false
+}
