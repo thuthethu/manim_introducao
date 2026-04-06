@@ -1,0 +1,19 @@
+# Python-generated files
+__pycache__/
+*.py[oc]
+
+# Build 
+build/ 
+dist/
+wheels/
+*.egg-info
+
+# Virtual environments
+.venv/
+
+# Manim 
+media/
+videos/
+*.mp4
+*.log
+
