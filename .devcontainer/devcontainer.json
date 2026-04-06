@@ -1,0 +1,12 @@
+{
+  "name": "Manim Project",
+  "image": "mcr.microsoft.com/devcontainers/python:3.11",
+  "postCreateCommand": "sudo apt update && sudo apt install -y ffmpeg libcairo2-dev && pip install uv && uv sync",
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "ms-python.python"
+      ]
+    }
+  }
+}
