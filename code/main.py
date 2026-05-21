@@ -1,5 +1,4 @@
 # ruff: noqa: F403, F405
-from typing_extensions import runtime
 from manim import *
 
 
@@ -115,3 +114,16 @@ class CreateSquare(Scene):
             rate_func=smooth,
         )
         self.wait(4)
+
+
+class Showimage(Scene):
+    def construct(self):
+        logo = SVGMobject("img/IF_logo")
+        logo.scale(2)
+
+        self.play(Create(logo))  # Aparece crescendo
+        self.wait(1)
+        self.play(logo.animate.to_edge(UP))  # Sobe para o topo
+        self.play(logo.animate.to_edge(LEFT))
+        self.wait(1)
+        self.play(Uncreate(logo))
