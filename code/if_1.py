@@ -62,13 +62,6 @@ class Cena1(Scene):
             FadeOut(circle_backgroud, if_logo_start, title, advisor, name, run_time=1.5)
         )
 
-        quadrado = Square(side_length=2, color="#f0f8ff")
-        IFTransition.apply(self, quadrado, direcao=LEFT, duracao=2.0)
-        self.wait(2)
-
-
-class Cena2(Scene):
-    def construct(self):
         adicionar_fundo_if(self, direcao=RIGHT)
 
         titulo = (
@@ -116,7 +109,7 @@ class Cena2(Scene):
                 stroke_width=1.5,
             ).set_stroke(opacity=0.6)
 
-            t2 = Line(
+            t2 = DashedLine(
                 origem,
                 origem + (RIGHT * np.cos(2 * ang / 3) + UP * np.sin(2 * ang / 3)) * 1.0,
                 color="#2e9e40",
@@ -247,3 +240,152 @@ class Cena2(Scene):
             )
 
             self.wait(1.0)
+
+
+class Cena3(Scene):
+    def construct(self):
+        # Transição e Fundo (Mantendo o padrão do seu código)
+        adicionar_fundo_if(self, direcao=RIGHT)
+
+        # ==========================================================
+        # SLIDE 1: O que é construtível? (Régua e Compasso)
+        # ==========================================================
+
+        titulo = (
+            Text(
+                "O que é construtível?",
+                font_size=36,
+                color="#2e9e40",
+            )
+            .to_edge(UP, buff=0.5)
+            .to_edge(LEFT, buff=2.5)
+        )
+
+        linha = (
+            Rectangle(color="#2e9e40", width=titulo.width, height=0.05, fill_opacity=1)
+            .next_to(titulo, DOWN, buff=0.1)
+            .align_to(titulo, LEFT)
+        )
+
+        self.play(Write(titulo), Create(linha), run_time=1.0)
+        self.wait(1.0)
+
+        # Texto explicativo sobre a restrição
+        texto_restricao = (
+            Text(
+                "Os gregos estabeleceram que as construções\ndevem ser feitas utilizando apenas:",
+                font_size=24,
+                color="#2e9e40",
+                line_spacing=1.5,
+            )
+            .next_to(linha, DOWN, buff=0.8)
+            .align_to(linha, LEFT)
+        )
+
+        self.play(FadeIn(texto_restricao, shift=RIGHT * 0.3))
+        self.wait(1.5)
+
+        # Ícones de Régua e Compasso
+        # Representação simplificada de uma régua
+        regua_shape = Rectangle(
+            width=4, height=0.5, color="#2e9e40", stroke_width=2, fill_color="#2e9e40"
+        )
+        regua_texto = Text(
+            "Régua (sem marcações)", font_size=20, color="#2e9e40"
+        ).next_to(regua_shape, DOWN)
+        regua_group = VGroup(regua_shape, regua_texto)
+
+        # Representação simplificada de um compasso
+        ponto_fixo = Dot(color="#2e9e40")
+        haste1 = Line(ORIGIN, UP * 2 + LEFT * 0.5, color="#2e9e40")
+        haste2 = Line(ORIGIN, UP * 2 + RIGHT * 0.5, color="#2e9e40")
+        compasso_shape = VGroup(haste1, haste2, ponto_fixo).move_to(
+            ORIGIN
+        )  # adiciona o ponto
+        compasso_texto = Text("Compasso", font_size=20, color="#2e9e40").next_to(
+            compasso_shape, DOWN
+        )
+        compasso_group = VGroup(compasso_shape, compasso_texto)
+
+        ferramentas = (
+            VGroup(regua_group, compasso_group)
+            .arrange(RIGHT, buff=2)
+            .next_to(texto_restricao, DOWN, buff=1.2)
+        )
+
+        self.play(Create(regua_shape), Write(regua_texto), run_time=2.5)
+        self.play(Create(compasso_shape), Write(compasso_texto), run_time=2.0)
+
+        pivot = ponto_fixo.get_center()
+        self.play(
+            Rotate(haste2, angle=PI / 2, about_point=pivot),
+            run_time=1.5,
+            rate_func=there_and_back,
+        )
+
+        self.wait(3)
+
+        # Limpar para o Slide 2
+        self.play(FadeOut(texto_restricao), FadeOut(ferramentas), run_time=1)
+
+        # ==========================================================
+        # SLIDE 2: Operações Permitidas
+        # ==========================================================
+
+        titulo_op = (
+            Text(
+                "Operações Permitidas",
+                font_size=30,
+                color="#2e9e40",
+            )
+            .next_to(linha, DOWN, buff=0.5)
+            .align_to(linha, LEFT)
+        )
+
+        self.play(
+            Transform(titulo, titulo_op)
+        )  # Reaproveitando o título ou apenas escrevendo novo
+
+        # Lista de operações com animações simples ao lado
+        op1_texto = Text("1. Reta por dois pontos", font_size=20, color="#2e9e40")
+        op2_texto = Text("2. Círculo (centro e ponto)", font_size=20, color="#2e9e40")
+        op3_texto = Text("3. Intersecções", font_size=20, color="#2e9e40")
+
+        # Animações demonstrativas
+        # Demonstração 1: Reta
+        p1 = Dot(LEFT * 0.5, color="#2e9e40")
+        p2 = Dot(RIGHT * 0.5, color="#2e9e40")
+        reta_demo = Line(LEFT * 1.2, RIGHT * 1.2, color="#2e9e40").set_stroke(
+            opacity=0.6
+        )
+        demo1 = VGroup(p1, p2, reta_demo).next_to(op1_texto, RIGHT, buff=2)
+
+        # Demonstração 2: Círculo
+        centro = Dot(color="#2e9e40")
+        p_raio = Dot(RIGHT * 0.6, color="#2e9e40")
+        circ_demo = Circle(radius=0.6, color="#2e9e40").set_stroke(opacity=0.6)
+        demo2 = VGroup(centro, p_raio, circ_demo).next_to(op2_texto, RIGHT, buff=2.3)
+
+        # Demonstração 3: Intersecção
+        l1 = Line(UP * 0.5 + LEFT * 0.5, DOWN * 0.5 + RIGHT * 0.5, color="#2e9e40")
+        l2 = Line(UP * 0.5 + RIGHT * 0.5, DOWN * 0.5 + LEFT * 0.5, color="#2e9e40")
+        inter_p = Dot(ORIGIN, color=RED).scale(0.8)
+        demo3 = VGroup(l1, l2, inter_p).next_to(op3_texto, RIGHT, buff=3)
+
+        # Sequência de animação
+        # Op 1
+        self.play(Write(op1_texto))
+        self.play(Create(demo1))  # em vez de Create(p1), Create(p2), Create(reta_demo)
+        self.wait(0.5)
+
+        # Op 2
+        self.play(Write(op2_texto))
+        self.play(
+            Create(demo2)
+        )  # em vez de Create(centro), Create(p_raio), Create(circ_demo)
+        self.wait(0.5)
+
+        # Op 3
+        self.play(Write(op3_texto))
+        self.play(Create(demo3))  # em vez de Create(l1), Create(l2), Create(inter_p)
+        self.wait(4)

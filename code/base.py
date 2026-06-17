@@ -16,6 +16,9 @@ def adicionar_fundo_if(scene, direcao=RIGHT):
     if_logo.scale_to_fit_width(1.5)
     if_logo.move_to(rectangle.get_center())
     if_logo.set_color("#F0F8FF")
+    scene.play(Create(rectangle), rate_func=smooth)
+    scene.play(Create(if_logo), rate_func=smooth)
+
     scene.add(rectangle, if_logo)
 
 
